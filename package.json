@@ -1,0 +1,29 @@
+{
+  "name": "mst-benchmark",
+  "version": "1.0.0",
+  "description": "benchmarking mobx state trees",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amir-arad/mst-benchmark.git"
+  },
+  "keywords": [
+    "benchmark",
+    "mobx",
+    "state",
+    "tree"
+  ],
+  "author": "amir-arad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amir-arad/mst-benchmark/issues"
+  },
+  "homepage": "https://github.com/amir-arad/mst-benchmark#readme",
+  "dependencies": {
+    "mobx": "3.1.11",
+    "mobx-state-tree": "0.6.3"
+  }
+}
