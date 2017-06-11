@@ -24,6 +24,7 @@
   "homepage": "https://github.com/amir-arad/mst-benchmark#readme",
   "dependencies": {
     "mobx": "3.1.11",
-    "mobx-state-tree": "0.6.3"
+    "mobx-state-tree": "0.6.3",
+    "mutable": "1.0.413"
   }
 }

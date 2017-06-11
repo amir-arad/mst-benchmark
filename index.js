@@ -3,6 +3,7 @@
 var Benchmark = require('benchmark').Benchmark,
 	Benchtable = require('benchtable');
 
+
 function getSuite(testName) {
 	var suite;
 
@@ -77,17 +78,30 @@ const {types, applySnapshot, onSnapshot} = require("mobx-state-tree");
 const {observable} = require("mobx");
 
 
-const Node = types.model("Node", {
+const MstNode = types.model("MstNode", {
 	value: types.number,
-	next: types.maybe(types.late(() => Node)),
+	next: types.maybe(types.late(() => MstNode)),
 });
 
-const Store = types.model("Head", {
-	next: types.maybe(Node)
+const MstHead = types.model("Head", {
+	next: types.maybe(MstNode)
 });
 
 // create an instance from a snapshot
-let store = Store.create({});
+let mstHead = MstHead.create({});
+
+const mutable = require('mutable');
+const MuNode = mutable.define('MuNode', {spec:(c)=>{
+	return {
+		value:mutable.Number,
+			next:c.nullable().withDefault(null)
+	};
+}});
+MuNode._spec.next = MuNode.nullable().withDefault(null);
+const MuHead = mutable.define('MuHead', {spec:(c)=>({
+	next:MuNode.nullable().withDefault(null)
+})});
+let muHead = new MuHead();
 
 //
 // // listen to new snapshots
@@ -111,14 +125,24 @@ function makelist(length) {
 getSuiteTable('wrappers')
 // add functions
 	.addFunction('MST#applySnapshot()', function (s) {
-		applySnapshot(store, s);
+		applySnapshot(mstHead, s);
 	}, {
 		onCycle(){
-			store = Store.create({});
+			mstHead = MstHead.create({});
 		}
 	})
-	.addFunction('mobx#observable()', function (s) {
-		observable(s);
+	.addFunction('mutable#setValueDeep()', function (s) {
+		muHead.setValueDeep(s);
+	}, {
+		onCycle(){
+			muHead = new MuHead();
+		}
+	})
+	.addFunction('mobx#observable.object()', function (s) {
+		observable.object(s);
+	})
+	.addFunction('mobx#observable.box()', function (s) {
+		observable.box(s);
 	})
 	// add inputs
 	.addInput('empty list', [makelist(0)])
