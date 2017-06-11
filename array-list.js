@@ -78,65 +78,51 @@ const {types, applySnapshot, onSnapshot} = require("mobx-state-tree");
 const {observable} = require("mobx");
 
 
-const MstNode = types.model("MstNode", {
-	value: types.number,
-	next: types.maybe(types.late(() => MstNode)),
-});
-
-const MstHead = types.model("Head", {
-	next: types.maybe(MstNode)
+const MstArr = types.model("MstArr", {
+	data: types.array(types.string)
 });
 
 // create an instance from a snapshot
-let mstHead = MstHead.create({});
+let mstArr = MstArr.create({data:[]});
 
 const mutable = require('mutable');
-const MuNode = mutable.define('MuNode', {spec:(c)=>{
+
+const MuArr = mutable.define('MuArr', {spec:(c)=>{
 	return {
-		value:mutable.Number,
-			next:c.nullable().withDefault(null)
+		data:mutable.List.of(mutable.String),
 	};
 }});
-MuNode._spec.next = MuNode.nullable().withDefault(null);
-const MuHead = mutable.define('MuHead', {spec:(c)=>({
-	next:MuNode.nullable().withDefault(null)
-})});
-let muHead = new MuHead();
 
-//
-// // listen to new snapshots
-// onSnapshot(store, (snapshot) => {
-// 	console.dir(snapshot)
-// })
-//
-// // invoke action that modifies the tree
-// store.todos[0].toggle()
-// // prints: `{ todos: [{ title: "Get coffee", done: true }]}`
+let muArr = new MuArr();
 
 function makelist(length) {
-	const result = {};
-	Array.from({length}, (v, k) => k + 1).reduce((tail, value) => tail.next = {value}, result);
-	return result;
+	return {data:Array.from({length}, (v, k) => ''+k)};
 }
 
 // console.log(JSON.stringify(makelist(0)));
 
 // example of a benchtable test
-getSuiteTable('wrappers')
+getSuiteTable('array wrappers')
 // add functions
 	.addFunction('MST#applySnapshot()', function (s) {
-		applySnapshot(mstHead, s);
+		applySnapshot(mstArr, s);
 	}, {
 		onCycle(){
-			mstHead = MstHead.create({});
+			mstArr = MstArr.create({data:[]});
 		}
 	})
+	.addFunction('MST#create()', function (s) {
+		MstArr.create(s);
+	})
 	.addFunction('mutable#setValueDeep()', function (s) {
-		muHead.setValueDeep(s);
+		muArr.setValueDeep(s);
 	}, {
 		onCycle(){
-			muHead = new MuHead();
+			muArr = new MuArr();
 		}
+	})
+	.addFunction('mutable#constructor', function (s) {
+		new MuArr(s);
 	})
 	.addFunction('mobx#observable.object()', function (s) {
 		observable.object(s);
