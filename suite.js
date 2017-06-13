@@ -9,7 +9,7 @@ exports.getSuiteTable = function getSuiteTable(testName) {
 	suiteTable = new Benchtable(testName, {isTransposed: true});
 
 	suiteTable.on('start', function () {
-		console.log('Starting benchmarks.');
+	//	console.log('Starting benchmarks.');
 	});
 
 	suiteTable.on('cycle', function (event) {
@@ -24,6 +24,7 @@ exports.getSuiteTable = function getSuiteTable(testName) {
 
 	suiteTable.on('complete', function (event) {
 		// console.warn('Fastest is ' + this.filter('fastest')[0].name);
+		console.log(this.name);
 		console.log(this.table.toString());
 	});
 

@@ -42,7 +42,7 @@ function makelist(length) {
 
 
 // example of a benchtable test
-getSuiteTable('wrappers')
+getSuiteTable('linked list')
 // add functions
 	.addFunction('MST#applySnapshot()', function (s) {
 		applySnapshot(mstHead, s);

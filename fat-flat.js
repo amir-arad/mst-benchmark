@@ -29,7 +29,7 @@ let muFat = new MuFat();
 // console.log(JSON.stringify(makelist(0)));
 
 // example of a benchtable test
-getSuiteTable('wrappers')
+getSuiteTable('a fat, flat object')
 // add functions
 	.addFunction('MST#applySnapshot()', function (s) {
 		applySnapshot(mstFat, s);
