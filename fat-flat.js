@@ -1,48 +1,5 @@
 'use strict';
-
-var Benchtable = require('benchtable');
-
-function getSuiteTable(testName) {
-	var suiteTable;
-
-	// enabling benchtable suite
-
-	suiteTable = new Benchtable(testName, {isTransposed: true});
-
-	suiteTable.on('start', function () {
-		console.log('Starting benchmarks.');
-	});
-
-	suiteTable.on('cycle', function (event) {
-		if (!event.target.error) {
-			console.log(String(event.target));
-		}
-	});
-
-	suiteTable.on('error', function (event) {
-		console.error(String(event.target) + String(event.target.error));
-	});
-
-	suiteTable.on('complete', function (event) {
-		console.warn('Fastest is ' + this.filter('fastest')[0].name);
-		console.log(this.table.toString());
-	});
-
-	return suiteTable;
-}
-
-//
-// // example of a benchmark test
-// getSuite('suite one')
-// // add cases
-// 	.add('concat', function () {
-// 		var b = 'foo' + 'bar';
-// 	})
-// 	.add('array join', function () {
-// 		var b = ['foo', 'bar'].join('');
-// 	})
-// 	// spin it
-// 	.run();
+const {getSuiteTable} = require('./suite');
 
 const {types, applySnapshot, onSnapshot} = require("mobx-state-tree");
 const {observable} = require("mobx");

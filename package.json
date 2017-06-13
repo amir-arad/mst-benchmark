@@ -23,8 +23,12 @@
   },
   "homepage": "https://github.com/amir-arad/mst-benchmark#readme",
   "dependencies": {
-    "mobx": "3.1.11",
-    "mobx-state-tree": "0.6.3",
-    "mutable": "1.0.413"
+    "create-react-class": "15.5.3",
+    "mobx": "3.1.15",
+    "mobx-react": "4.2.1",
+    "mobx-state-tree": "0.7.1",
+    "mutable": "1.0.413",
+    "react": "15.5.4",
+    "react-dom": "15.5.4"
   }
 }
